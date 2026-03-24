@@ -70,8 +70,8 @@ func main() {
 	var extraFiles []*os.File
 	bashrcR, bashrcW, pipeErr := os.Pipe()
 	if pipeErr == nil {
-		fmt.Fprint(bashrcW, "PS1='[🫧] > '\n")
-		bashrcW.Close()
+		_, _ = fmt.Fprint(bashrcW, "PS1='[🫧] > '\n")
+		_ = bashrcW.Close()
 		// ExtraFiles[0] becomes fd 3 (after stdin/stdout/stderr)
 		extraFiles = append(extraFiles, bashrcR)
 		args = append(args, "--file", "3", filepath.Join(home, ".bashrc"))
