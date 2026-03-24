@@ -26,9 +26,9 @@ bwai
 By default, `bwai` opens a sandboxed `bash` shell. From there you can launch any agent:
 
 ```sh
-claude
-goose
-gemini
+[🫧] > claude
+[🫧] > goose
+[🫧] > gemini
 ```
 
 To skip the shell and launch an agent directly, set the `command` field in `~/.bwai.json`:

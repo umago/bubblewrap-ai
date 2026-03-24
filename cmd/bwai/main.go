@@ -64,6 +64,19 @@ func main() {
 		"--unshare-ipc",
 	)
 	args = append(args, cfg.BwrapExtraArgs...)
+
+	// Inject a minimal ~/.bashrc into the sandbox so the shell prompt looks nice
+	// Pipe the content directly via --file <fd> <dest> to avoid any temp files
+	var extraFiles []*os.File
+	bashrcR, bashrcW, pipeErr := os.Pipe()
+	if pipeErr == nil {
+		fmt.Fprint(bashrcW, "PS1='[🫧] > '\n")
+		bashrcW.Close()
+		// ExtraFiles[0] becomes fd 3 (after stdin/stdout/stderr)
+		extraFiles = append(extraFiles, bashrcR)
+		args = append(args, "--file", "3", filepath.Join(home, ".bashrc"))
+	}
+
 	args = append(args, command...)
 
 	// Execute the bubblewrap command
@@ -71,6 +84,7 @@ func main() {
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
+	cmd.ExtraFiles = extraFiles
 
 	if err := cmd.Run(); err != nil {
 		if exitErr, ok := err.(*exec.ExitError); ok {
