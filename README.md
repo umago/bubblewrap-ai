@@ -30,7 +30,7 @@ bwai
 ```json
 {
   "bwrap_path": "/usr/bin/bwrap",
-  "command": ["claude"],
+  "command": ["bash"],
   "bwrap_extra_args": [""],
   "home_allowed": [
     ".claude",
