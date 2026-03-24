@@ -4,7 +4,7 @@ Runs AI coding agents (Claude, Gemini, Goose) inside a [bubblewrap](https://gith
 
 ## Requirements
 
-- Linux
+- Linux (Wayland)
 - [`bwrap`](https://github.com/containers/bubblewrap) installed (e.g. `sudo dnf install bubblewrap` or `sudo apt install bubblewrap`)
 
 ## Install
@@ -21,6 +21,20 @@ Run `bwai` from inside the project directory you want to give the agent access t
 ```sh
 cd ~/my-project
 bwai
+```
+
+By default, `bwai` opens a sandboxed `bash` shell. From there you can launch any agent:
+
+```sh
+claude
+goose
+gemini
+```
+
+To skip the shell and launch an agent directly, set the `command` field in `~/.bwai.json`:
+
+```json
+{ "command": ["claude"] }
 ```
 
 ## Configuration
