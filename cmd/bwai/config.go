@@ -63,18 +63,23 @@ func defaultConfig() Config {
 
 // loadConfig reads ~/.bwai.json if it exists and returns the resulting Config.
 // Fields omitted from the file fall back to the defaults
-func loadConfig(home string) (Config, error) {
-	cfg := defaultConfig()
+func loadConfig(home string) (cfg Config, err error) {
+	cfg = defaultConfig()
 	path := filepath.Join(home, ".bwai.json")
-	f, err := os.Open(path)
+	var f *os.File
+	f, err = os.Open(path)
 	if os.IsNotExist(err) {
 		return cfg, nil
 	}
 	if err != nil {
 		return cfg, err
 	}
-	defer f.Close()
-	if err := json.NewDecoder(f).Decode(&cfg); err != nil {
+	defer func() {
+		if cerr := f.Close(); cerr != nil && err == nil {
+			err = cerr
+		}
+	}()
+	if err = json.NewDecoder(f).Decode(&cfg); err != nil {
 		return cfg, err
 	}
 	return cfg, nil
