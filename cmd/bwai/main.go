@@ -80,8 +80,6 @@ func main() {
 		"--tmpfs", "/run",
 	)
 	args = append(args, dnsMounts()...)
-	// Wayland display
-	args = append(args, displayArgs()...)
 	// Home directory
 	args = append(args, tmpfs(home)...)
 	args = append(args, homeMounts(home)...)

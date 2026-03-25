@@ -63,18 +63,6 @@ func homeMounts(home string) []string {
 	return args
 }
 
-// Bind the Wayland socket and pass the display env vars into the sandbox
-func displayArgs() []string {
-	xdgRuntime := os.Getenv("XDG_RUNTIME_DIR")
-	waylandDisp := os.Getenv("WAYLAND_DISPLAY")
-	args := rwBind(xdgRuntime)
-	args = append(args,
-		"--setenv", "XDG_RUNTIME_DIR", xdgRuntime,
-		"--setenv", "WAYLAND_DISPLAY", waylandDisp,
-	)
-	return args
-}
-
 // Bind /dev/shm (shared memory) if it exists on this host
 func shmMount() []string {
 	p := "/dev/shm"

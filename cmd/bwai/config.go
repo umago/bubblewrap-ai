@@ -41,8 +41,6 @@ func defaultConfig() Config {
 			"USER",
 			"LOGNAME",
 			"PATH",
-			"XDG_RUNTIME_DIR",
-			"WAYLAND_DISPLAY",
 			// Claude
 			"ANTHROPIC_API_KEY",
 			// Claude model selection / pinning

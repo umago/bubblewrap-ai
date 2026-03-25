@@ -4,7 +4,7 @@ Runs AI coding agents (Claude, Gemini, Goose) inside a [bubblewrap](https://gith
 
 ## Requirements
 
-- Linux (Wayland)
+- Linux
 - [`bwrap`](https://github.com/containers/bubblewrap) installed (e.g. `sudo dnf install bubblewrap` or `sudo apt install bubblewrap`)
 
 ## Install
@@ -99,8 +99,6 @@ Example `~/.bwai.json`:
     "USER",
     "LOGNAME",
     "PATH",
-    "XDG_RUNTIME_DIR",
-    "WAYLAND_DISPLAY",
     "ANTHROPIC_API_KEY",
     "ANTHROPIC_MODEL",
     "ANTHROPIC_DEFAULT_OPUS_MODEL",
@@ -116,7 +114,8 @@ Example `~/.bwai.json`:
     "GOOSE_PROVIDER",
     "GOOSE_MODEL",
     "OPENAI_API_KEY",
-    "OPENAI_API_BASE"
+    "OPENAI_API_BASE",
+    "OPENROUTER_API_KEY",
   ]
 }
 ```
