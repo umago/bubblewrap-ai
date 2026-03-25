@@ -95,8 +95,6 @@ func main() {
 		"--chdir", currentDir,
 		// Namespace isolation
 		"--die-with-parent",
-		"--unshare-pid",
-		"--unshare-ipc",
 	)
 	args = append(args, cfg.BwrapExtraArgs...)
 

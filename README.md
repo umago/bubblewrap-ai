@@ -72,8 +72,8 @@ Example `~/.bwai.json`:
 ```json
 {
   "bwrap_path": "bwrap",
+  "bwrap_extra_args": ["--unshare-pid", "--unshare-ipc"],
   "command": ["bash"],
-  "bwrap_extra_args": [],
   "home_allow": [
     ".claude",
     ".gemini",
@@ -132,8 +132,8 @@ Example `~/.bwai.json`:
 | Field | Description | Default |
 |---|---|---|
 | `bwrap_path` | Path to the `bwrap` binary | `"bwrap"` |
+| `bwrap_extra_args` | Extra arguments forwarded to `bwrap` (e.g. `--unshare-net`) | `["--unshare-pid", "--unshare-ipc"]` |
 | `command` | Command (and args) to run inside the sandbox | `["bash"]` |
-| `bwrap_extra_args` | Extra arguments forwarded to `bwrap` (e.g. `--unshare-net`) | `[]` |
 | `home_allow` | Dotfiles/dirs in `$HOME` the agent may read and write | see above |
 | `home_block` | Dotfiles/dirs in `$HOME` that are never exposed | see above |
 | `env_allow` | Environment variables from the host passed into the sandbox | see above |

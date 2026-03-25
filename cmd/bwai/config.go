@@ -28,8 +28,9 @@ type Config struct {
 
 func defaultConfig() Config {
 	return Config{
-		BwrapPath: "bwrap",
-		Command:   []string{"bash"},
+		BwrapPath:      "bwrap",
+		BwrapExtraArgs: []string{"--unshare-pid", "--unshare-ipc"},
+		Command:        []string{"bash"},
 		EnvAllow: []string{
 			"TERM",
 			"COLORTERM",
