@@ -11,10 +11,16 @@ import (
 )
 
 func main() {
+	versionFlag := flag.Bool("version", false, "Print version and exit")
 	dumpConfig := flag.Bool("dump-config", false, "Print the default configuration JSON and exit")
 	commandFlag := flag.String("command", "", "Command to run inside the sandbox (overrides config and default)")
 	flag.StringVar(commandFlag, "c", "", "Shorthand for --command")
 	flag.Parse()
+
+	if *versionFlag {
+		fmt.Printf("bwai %s\n", version)
+		os.Exit(0)
+	}
 
 	if *dumpConfig {
 		cfg := defaultConfig()
