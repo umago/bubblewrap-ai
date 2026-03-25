@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"strings"
 )
 
 func main() {
@@ -46,7 +47,7 @@ func main() {
 
 	command := cfg.Command
 	if *commandFlag != "" {
-		command = []string{*commandFlag}
+		command = strings.Fields(*commandFlag)
 	}
 
 	fmt.Printf("bwai: sandboxed in %s\n", currentDir)

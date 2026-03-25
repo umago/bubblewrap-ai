@@ -31,10 +31,21 @@ By default, `bwai` opens a sandboxed `bash` shell. From there you can launch any
 [🫧] > gemini
 ```
 
-To skip the shell and launch an agent directly, set the `command` field in `~/.bwai.json`:
+### Running a command directly
+
+To skip the shell and launch an agent (or any command) directly, you can either:
+
+1. Set the `command` field in `~/.bwai.json`:
 
 ```json
 { "command": ["claude"] }
+```
+
+2. Use the `--command` (or `-c`) CLI flag, which overrides the config file:
+
+```sh
+bwai --command claude
+bwai -c "claude --model gemini-2.0-flash-exp"
 ```
 
 ## Configuration
