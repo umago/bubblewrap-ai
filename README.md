@@ -1,6 +1,6 @@
 # bubblewrap-ai
 
-Runs AI coding agents (Claude, Gemini, Goose) inside a [bubblewrap](https://github.com/containers/bubblewrap) sandbox. The host filesystem is read-only; only the current project directory and the dotfiles you whitelist are accessible.
+Runs AI coding agents (Claude, Gemini, Goose) inside a [bubblewrap](https://github.com/containers/bubblewrap) sandbox. The host filesystem is read-only, only the current project directory and the dotfiles you whitelist are accessible. The sandbox also starts with a clean environment, only variables explicitly allowed are visible to the agent.
 
 ## Requirements
 
@@ -70,6 +70,7 @@ Example `~/.bwai.json`:
     ".gemini",
     ".claude.json",
     ".config/goose",
+    ".config/gcloud",
     ".local/state",
     ".local/share/goose",
     ".cache"
@@ -86,6 +87,36 @@ Example `~/.bwai.json`:
     ".password-store",
     ".bash_history*",
     ".config/Bitwarden"
+  ],
+  "env_allow": [
+    "TERM",
+    "COLORTERM",
+    "LANG",
+    "LC_ALL",
+    "LC_MESSAGES",
+    "LC_CTYPE",
+    "HOME",
+    "USER",
+    "LOGNAME",
+    "PATH",
+    "XDG_RUNTIME_DIR",
+    "WAYLAND_DISPLAY",
+    "ANTHROPIC_API_KEY",
+    "ANTHROPIC_MODEL",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL",
+    "CLAUDE_CODE_USE_VERTEX",
+    "CLOUD_ML_REGION",
+    "ANTHROPIC_VERTEX_PROJECT_ID",
+    "GEMINI_API_KEY",
+    "GOOGLE_API_KEY",
+    "GCLOUD_PROJECT",
+    "GOOGLE_CLOUD_PROJECT",
+    "GOOSE_PROVIDER",
+    "GOOSE_MODEL",
+    "OPENAI_API_KEY",
+    "OPENAI_API_BASE"
   ]
 }
 ```
@@ -97,5 +128,6 @@ Example `~/.bwai.json`:
 | `bwrap_extra_args` | Extra arguments forwarded to `bwrap` (e.g. `--unshare-net`) | `[]` |
 | `home_allowed` | Dotfiles/dirs in `$HOME` the agent may read and write | see above |
 | `home_blocked` | Dotfiles/dirs in `$HOME` that are never exposed | see above |
+| `env_allow` | Environment variables from the host passed into the sandbox | see above |
 
 `home_allowed` takes precedence over `home_blocked`.

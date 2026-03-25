@@ -21,17 +21,57 @@ type Config struct {
 
 	// Sensitive files and directories in $HOME that must never be exposed
 	HomeBlocked []string `json:"home_blocked"`
+
+	// Environment variables from the host that are passed into the sandbox
+	EnvAllow []string `json:"env_allow"`
 }
 
 func defaultConfig() Config {
 	return Config{
 		BwrapPath: "bwrap",
 		Command:   []string{"bash"},
+		EnvAllow: []string{
+			"TERM",
+			"COLORTERM",
+			"LANG",
+			"LC_ALL",
+			"LC_MESSAGES",
+			"LC_CTYPE",
+			"HOME",
+			"USER",
+			"LOGNAME",
+			"PATH",
+			"XDG_RUNTIME_DIR",
+			"WAYLAND_DISPLAY",
+			// Claude
+			"ANTHROPIC_API_KEY",
+			// Claude model selection / pinning
+			"ANTHROPIC_MODEL",
+			"ANTHROPIC_DEFAULT_OPUS_MODEL",
+			"ANTHROPIC_DEFAULT_SONNET_MODEL",
+			"ANTHROPIC_DEFAULT_HAIKU_MODEL",
+			// Claude Code on Google Vertex AI
+			"CLAUDE_CODE_USE_VERTEX",
+			"CLOUD_ML_REGION",
+			"ANTHROPIC_VERTEX_PROJECT_ID",
+			// Gemini / Google
+			"GEMINI_API_KEY",
+			"GOOGLE_API_KEY",
+			"GCLOUD_PROJECT",
+			"GOOGLE_CLOUD_PROJECT",
+			// Goose (uses provider keys above + its own config)
+			"GOOSE_PROVIDER",
+			"GOOSE_MODEL",
+			// OpenAI-compatible providers (used by Goose and others)
+			"OPENAI_API_KEY",
+			"OPENAI_API_BASE",
+		},
 		HomeAllowed: []string{
 			".claude",
 			".gemini",
 			".claude.json",
 			".config/goose",
+			".config/gcloud",
 			".local/state",
 			".local/share/goose",
 			".cache",

@@ -52,6 +52,15 @@ func main() {
 
 	fmt.Printf("bwai: sandboxed in %s\n", currentDir)
 	args := []string{
+		// Clear the inherited environment; only whitelisted vars are passed through below
+		"--clearenv",
+	}
+	for _, key := range cfg.EnvAllow {
+		if val, ok := os.LookupEnv(key); ok {
+			args = append(args, "--setenv", key, val)
+		}
+	}
+	args = append(args,
 		// Read-only OS tree
 		"--ro-bind", "/usr", "/usr",
 		"--ro-bind", "/etc", "/etc",
@@ -62,7 +71,7 @@ func main() {
 		"--ro-bind", "/sys", "/sys",
 		// Device nodes
 		"--dev", "/dev",
-	}
+	)
 	args = append(args, shmMount()...)
 	args = append(args,
 		// Virtual filesystems
