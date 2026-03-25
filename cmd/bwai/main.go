@@ -11,6 +11,8 @@ import (
 
 func main() {
 	dumpConfig := flag.Bool("dump-config", false, "Print the default configuration JSON and exit")
+	commandFlag := flag.String("command", "", "Command to run inside the sandbox (overrides config and default)")
+	flag.StringVar(commandFlag, "c", "", "Shorthand for --command")
 	flag.Parse()
 
 	if *dumpConfig {
@@ -42,9 +44,12 @@ func main() {
 	homeAllowed = cfg.HomeAllowed
 	homeBlocked = cfg.HomeBlocked
 
-	fmt.Printf("bwai: sandboxed in %s\n", currentDir)
-
 	command := cfg.Command
+	if *commandFlag != "" {
+		command = []string{*commandFlag}
+	}
+
+	fmt.Printf("bwai: sandboxed in %s\n", currentDir)
 	args := []string{
 		// Read-only OS tree
 		"--ro-bind", "/usr", "/usr",
