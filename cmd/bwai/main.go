@@ -1,6 +1,8 @@
 package main
 
 import (
+	"encoding/json"
+	"flag"
 	"fmt"
 	"os"
 	"os/exec"
@@ -8,6 +10,20 @@ import (
 )
 
 func main() {
+	dumpConfig := flag.Bool("dump-config", false, "Print the default configuration JSON and exit")
+	flag.Parse()
+
+	if *dumpConfig {
+		cfg := defaultConfig()
+		enc := json.NewEncoder(os.Stdout)
+		enc.SetIndent("", "  ")
+		if err := enc.Encode(cfg); err != nil {
+			fmt.Fprintf(os.Stderr, "bwai: failed to encode config: %v\n", err)
+			os.Exit(1)
+		}
+		os.Exit(0)
+	}
+
 	home, err := os.UserHomeDir()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "bwai: cannot determine home directory: %v\n", err)
