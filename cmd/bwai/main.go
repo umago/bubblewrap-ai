@@ -81,16 +81,20 @@ func main() {
 	)
 	args = append(args, cfg.BwrapExtraArgs...)
 
-	// Inject a minimal ~/.bashrc into the sandbox so the shell prompt looks nice
-	// Pipe the content directly via --file <fd> <dest> to avoid any temp files
+	// Inject a minimal rcfile so PS1 is set after /etc/bashrc runs, without
+	// creating any file at ~/.bashrc (which is blocked). Write to /tmp/bwai.sh
+	// (inside the --tmpfs /tmp) and point bash at it via --rcfile
 	var extraFiles []*os.File
-	bashrcR, bashrcW, pipeErr := os.Pipe()
-	if pipeErr == nil {
-		_, _ = fmt.Fprint(bashrcW, "PS1='[🫧] > '\n")
-		_ = bashrcW.Close()
-		// ExtraFiles[0] becomes fd 3 (after stdin/stdout/stderr)
-		extraFiles = append(extraFiles, bashrcR)
-		args = append(args, "--file", "3", filepath.Join(home, ".bashrc"))
+	if len(command) > 0 && filepath.Base(command[0]) == "bash" {
+		bashrcR, bashrcW, pipeErr := os.Pipe()
+		if pipeErr == nil {
+			_, _ = fmt.Fprint(bashrcW, "PS1='[🫧] > '\n")
+			_ = bashrcW.Close()
+			// ExtraFiles[0] becomes fd 3 (after stdin/stdout/stderr)
+			extraFiles = append(extraFiles, bashrcR)
+			args = append(args, "--file", "3", "/tmp/bwai.sh")
+			command = append([]string{command[0], "--rcfile", "/tmp/bwai.sh"}, command[1:]...)
+		}
 	}
 
 	args = append(args, command...)

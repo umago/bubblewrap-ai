@@ -71,8 +71,6 @@ Example `~/.bwai.json`:
     ".kube",
     ".azure",
     ".password-store",
-    ".bashrc",
-    ".bashrc.d",
     ".bash_history*",
     ".config/Bitwarden"
   ]
