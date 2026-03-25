@@ -43,6 +43,8 @@ func defaultConfig() Config {
 			".aws",
 			".kube",
 			".azure",
+			".bashrc",
+			".bashrc.d",
 			".password-store",
 			".bash_history*",
 			".config/Bitwarden",
