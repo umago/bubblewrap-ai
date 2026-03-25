@@ -9,6 +9,15 @@ Runs AI coding agents (Claude, Gemini, Goose) inside a [bubblewrap](https://gith
 
 ## Install
 
+### From GitHub Releases (recommended)
+
+```sh
+curl -Lo ~/.local/bin/bwai https://github.com/umago/bubblewrap-ai/releases/latest/download/bwai
+chmod +x ~/.local/bin/bwai
+```
+
+### From source
+
 ```sh
 make build
 cp bin/bwai ~/.local/bin/
