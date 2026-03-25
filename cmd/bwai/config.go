@@ -17,10 +17,10 @@ type Config struct {
 	Command []string `json:"command"`
 
 	// Files and directories in $HOME that agents need write access to
-	HomeAllowed []string `json:"home_allowed"`
+	HomeAllow []string `json:"home_allow"`
 
 	// Sensitive files and directories in $HOME that must never be exposed
-	HomeBlocked []string `json:"home_blocked"`
+	HomeBlock []string `json:"home_block"`
 
 	// Environment variables from the host that are passed into the sandbox
 	EnvAllow []string `json:"env_allow"`
@@ -66,7 +66,7 @@ func defaultConfig() Config {
 			// OpenRouter
 			"OPENROUTER_API_KEY",
 		},
-		HomeAllowed: []string{
+		HomeAllow: []string{
 			".claude",
 			".gemini",
 			".claude.json",
@@ -76,7 +76,7 @@ func defaultConfig() Config {
 			".local/share/goose",
 			".cache",
 		},
-		HomeBlocked: []string{
+		HomeBlock: []string{
 			".gnupg",
 			".ssh",
 			".pki",
@@ -117,5 +117,5 @@ func loadConfig(home string) (cfg Config, err error) {
 }
 
 // Package-level vars set in main()
-var homeAllowed []string
-var homeBlocked []string
+var homeAllow []string
+var homeBlock []string

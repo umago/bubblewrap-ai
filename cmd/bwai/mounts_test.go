@@ -67,15 +67,15 @@ func TestHomeMounts(t *testing.T) {
 	home := t.TempDir()
 
 	// Mock package-level globals for the duration of the test.
-	origAllowed := homeAllowed
-	origBlocked := homeBlocked
+	origAllowed := homeAllow
+	origBlocked := homeBlock
 	t.Cleanup(func() {
-		homeAllowed = origAllowed
-		homeBlocked = origBlocked
+		homeAllow = origAllowed
+		homeBlock = origBlocked
 	})
 
-	homeAllowed = []string{".claude", ".config/goose"}
-	homeBlocked = []string{".ssh", ".config/secret"}
+	homeAllow = []string{".claude", ".config/goose"}
+	homeBlock = []string{".ssh", ".config/secret"}
 
 	mkDir := func(rel string) string {
 		p := filepath.Join(home, rel)

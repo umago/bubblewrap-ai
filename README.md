@@ -74,7 +74,7 @@ Example `~/.bwai.json`:
   "bwrap_path": "bwrap",
   "command": ["bash"],
   "bwrap_extra_args": [],
-  "home_allowed": [
+  "home_allow": [
     ".claude",
     ".gemini",
     ".claude.json",
@@ -84,7 +84,7 @@ Example `~/.bwai.json`:
     ".local/share/goose",
     ".cache"
   ],
-  "home_blocked": [
+  "home_block": [
     ".gnupg",
     ".ssh",
     ".pki",
@@ -134,8 +134,8 @@ Example `~/.bwai.json`:
 | `bwrap_path` | Path to the `bwrap` binary | `"bwrap"` |
 | `command` | Command (and args) to run inside the sandbox | `["bash"]` |
 | `bwrap_extra_args` | Extra arguments forwarded to `bwrap` (e.g. `--unshare-net`) | `[]` |
-| `home_allowed` | Dotfiles/dirs in `$HOME` the agent may read and write | see above |
-| `home_blocked` | Dotfiles/dirs in `$HOME` that are never exposed | see above |
+| `home_allow` | Dotfiles/dirs in `$HOME` the agent may read and write | see above |
+| `home_block` | Dotfiles/dirs in `$HOME` that are never exposed | see above |
 | `env_allow` | Environment variables from the host passed into the sandbox | see above |
 
-`home_allowed` takes precedence over `home_blocked`.
+`home_allow` takes precedence over `home_block`.

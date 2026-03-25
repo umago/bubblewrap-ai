@@ -45,11 +45,11 @@ func homeMounts(home string) []string {
 	var args []string
 	for _, entry := range entries {
 		name := entry.Name()
-		if matchesDirect(homeBlocked, name) || name[0] != '.' {
+		if matchesDirect(homeBlock, name) || name[0] != '.' {
 			continue
 		}
 		p := filepath.Join(home, name)
-		if matchesDirect(homeAllowed, name) {
+		if matchesDirect(homeAllow, name) {
 			args = append(args, rwBind(p)...)
 		} else {
 			args = append(args, roBind(p)...)
@@ -58,8 +58,8 @@ func homeMounts(home string) []string {
 	// Apply sub-path overrides after all parent dirs are mounted.
 	// Blocked sub-paths must be hidden first, then allowed sub-paths can
 	// selectively re-expose specific files within blocked directories
-	args = append(args, subPathMounts(home, homeBlocked, func(p string) []string { return tmpfs(p) })...)
-	args = append(args, subPathMounts(home, homeAllowed, func(p string) []string { return rwBind(p) })...)
+	args = append(args, subPathMounts(home, homeBlock, func(p string) []string { return tmpfs(p) })...)
+	args = append(args, subPathMounts(home, homeAllow, func(p string) []string { return rwBind(p) })...)
 	return args
 }
 

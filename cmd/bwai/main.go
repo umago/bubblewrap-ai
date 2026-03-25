@@ -48,8 +48,8 @@ func main() {
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "bwai: warning: could not load %s: %v\n", filepath.Join(home, ".bwai.json"), err)
 	}
-	homeAllowed = cfg.HomeAllowed
-	homeBlocked = cfg.HomeBlocked
+	homeAllow = cfg.HomeAllow
+	homeBlock = cfg.HomeBlock
 
 	command := cfg.Command
 	if *commandFlag != "" {
