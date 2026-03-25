@@ -39,13 +39,21 @@ To skip the shell and launch an agent directly, set the `command` field in `~/.b
 
 ## Configuration
 
-`bwai` works out of the box with no config file. To customise behaviour, create `~/.bwai.json`:
+`bwai` works out of the box with no config file. To customise behaviour, create `~/.bwai.json`.
+
+To see the full default configuration as a starting point, run:
+
+```sh
+bwai --dump-config > ~/.bwai.json
+```
+
+Example `~/.bwai.json`:
 
 ```json
 {
-  "bwrap_path": "/usr/bin/bwrap",
+  "bwrap_path": "bwrap",
   "command": ["bash"],
-  "bwrap_extra_args": [""],
+  "bwrap_extra_args": [],
   "home_allowed": [
     ".claude",
     ".gemini",
@@ -62,20 +70,11 @@ To skip the shell and launch an agent directly, set the `command` field in `~/.b
     ".aws",
     ".kube",
     ".azure",
-    ".docker",
     ".password-store",
     ".bashrc",
     ".bashrc.d",
     ".bash_history*",
-    ".netrc",
-    ".npmrc",
-    ".pypirc",
-    ".config/Bitwarden",
-    ".config/gh",
-    ".config/gcloud",
-    ".config/op",
-    ".config/helm",
-    ".config/git"
+    ".config/Bitwarden"
   ]
 }
 ```
@@ -88,4 +87,4 @@ To skip the shell and launch an agent directly, set the `command` field in `~/.b
 | `home_allowed` | Dotfiles/dirs in `$HOME` the agent may read and write | see above |
 | `home_blocked` | Dotfiles/dirs in `$HOME` that are never exposed | see above |
 
-`home_blocked` takes precedence over `home_allowed`.
+`home_allowed` takes precedence over `home_blocked`.
