@@ -18,7 +18,7 @@ func main() {
 	flag.Parse()
 
 	if *versionFlag {
-		fmt.Printf("bwai %s\n", version)
+		fmt.Printf("%s\n", version)
 		os.Exit(0)
 	}
 
