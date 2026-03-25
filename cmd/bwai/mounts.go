@@ -55,9 +55,11 @@ func homeMounts(home string) []string {
 			args = append(args, roBind(p)...)
 		}
 	}
-	// Apply sub-path overrides after all parent dirs are mounted
-	args = append(args, subPathMounts(home, homeAllowed, func(p string) []string { return rwBind(p) })...)
+	// Apply sub-path overrides after all parent dirs are mounted.
+	// Blocked sub-paths must be hidden first, then allowed sub-paths can
+	// selectively re-expose specific files within blocked directories
 	args = append(args, subPathMounts(home, homeBlocked, func(p string) []string { return tmpfs(p) })...)
+	args = append(args, subPathMounts(home, homeAllowed, func(p string) []string { return rwBind(p) })...)
 	return args
 }
 
