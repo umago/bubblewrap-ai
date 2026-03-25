@@ -65,6 +65,8 @@ func defaultConfig() Config {
 			// OpenAI-compatible providers (used by Goose and others)
 			"OPENAI_API_KEY",
 			"OPENAI_API_BASE",
+			// OpenRouter
+			"OPENROUTER_API_KEY",
 		},
 		HomeAllowed: []string{
 			".claude",
