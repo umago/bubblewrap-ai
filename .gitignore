@@ -1,16 +1,17 @@
-# Binaries
+# Binaries for programs and plugins
 *.exe
 *.exe~
 *.dll
 *.so
 *.dylib
 
-# Test binary
+# Test binary, built with `go test -c`
 *.test
 
-# Coverage output
+# Output of the go coverage tool
 *.out
 coverage.html
+coverage.txt
 
 # Go workspace file
 go.work
@@ -23,9 +24,54 @@ vendor/
 /bin/
 /dist/
 
+# Dependency directories
+/go.sum
+
 # IDE / editor
 .idea/
 .vscode/
 *.swp
 *.swo
 *~
+*.sublime-*
+
+# OS-specific files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+*.bak
+*.orig
+
+# Archive files
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.rar
+
+# Security / Secrets
+*.pem
+*.key
+*.crt
+*.p12
+.env
+.env.*
+secrets/
+credentials/
+
+# Documentation builds
+/site/
+/docs/_build/
+
+# Debug
+debug
+__debug_bin*
