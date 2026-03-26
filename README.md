@@ -59,7 +59,11 @@ bwai -c "claude --model gemini-2.0-flash-exp"
 
 ## Configuration
 
-`bwai` works out of the box with no config file. To customise behaviour, create `~/.bwai.json`.
+`bwai` works out of the box with no config file. To customise behaviour, create `~/.bwai.json` as a global config. This can be overridden per-run with the `--config` flag:
+
+```sh
+bwai --config /path/to/my-config.json
+```
 
 To see the full default configuration as a starting point, run:
 

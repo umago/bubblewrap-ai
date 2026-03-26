@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"os"
-	"path/filepath"
 )
 
 type Config struct {
@@ -93,11 +92,10 @@ func defaultConfig() Config {
 	}
 }
 
-// loadConfig reads ~/.bwai.json if it exists and returns the resulting Config.
-// Fields omitted from the file fall back to the defaults
-func loadConfig(home string) (cfg Config, err error) {
+// loadConfig reads the config file at the given path if it exists and returns the resulting Config.
+// Fields omitted from the file fall back to the defaults.
+func loadConfig(path string) (cfg Config, err error) {
 	cfg = defaultConfig()
-	path := filepath.Join(home, ".bwai.json")
 	var f *os.File
 	f, err = os.Open(path)
 	if os.IsNotExist(err) {

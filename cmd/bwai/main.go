@@ -13,6 +13,7 @@ import (
 func main() {
 	versionFlag := flag.Bool("version", false, "Print version and exit")
 	dumpConfig := flag.Bool("dump-config", false, "Print the default configuration JSON and exit")
+	configFlag := flag.String("config", "", "Path to a config file (overrides ~/.bwai.json)")
 	commandFlag := flag.String("command", "", "Command to run inside the sandbox (overrides config and default)")
 	flag.StringVar(commandFlag, "c", "", "Shorthand for --command")
 	flag.Parse()
@@ -44,9 +45,13 @@ func main() {
 		os.Exit(1)
 	}
 
-	cfg, err := loadConfig(home)
+	configPath := filepath.Join(home, ".bwai.json")
+	if *configFlag != "" {
+		configPath = *configFlag
+	}
+	cfg, err := loadConfig(configPath)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "bwai: warning: could not load %s: %v\n", filepath.Join(home, ".bwai.json"), err)
+		fmt.Fprintf(os.Stderr, "bwai: warning: could not load %s: %v\n", configPath, err)
 	}
 	homeAllow = cfg.HomeAllow
 	homeBlock = cfg.HomeBlock
