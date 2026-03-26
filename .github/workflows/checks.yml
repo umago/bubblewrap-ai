@@ -1,0 +1,31 @@
+name: Checks
+
+on:
+  pull_request:
+    branches:
+      - "main"
+
+jobs:
+  checks:
+    name: Code checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Install golangci-lint
+        uses: golangci/golangci-lint-action@v9
+        with:
+          version: latest
+          install-mode: binary
+          install-only: true  # The script will perform the check
+
+      - name: Run code checks
+        run: bash scripts/check.sh
