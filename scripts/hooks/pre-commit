@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 set -e
 
-$(dirname "$0")/../check.sh
+$(dirname "$0")/../../scripts/check.sh

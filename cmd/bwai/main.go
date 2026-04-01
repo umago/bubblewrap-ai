@@ -57,7 +57,7 @@ func main() {
 
 	command := cfg.Command
 	if *commandFlag != "" {
-		command = []string{"bash", "-i", "-c", *commandFlag}
+		command = []string{*commandFlag}
 	}
 
 	fmt.Printf("bwai: sandboxed in %s\n", currentDir)
@@ -106,7 +106,7 @@ func main() {
 	// creating any file at ~/.bashrc (which is blocked). Write to /tmp/bwai.sh
 	// (inside the --tmpfs /tmp) and point bash at it via --rcfile
 	var extraFiles []*os.File
-	if len(command) > 0 && filepath.Base(command[0]) == "bash" {
+	if len(command) == 1 && command[0] == "bash" {
 		bashrcR, bashrcW, pipeErr := os.Pipe()
 		if pipeErr == nil {
 			_, _ = fmt.Fprint(bashrcW, "PS1='[🫧] > '\n")
@@ -116,6 +116,13 @@ func main() {
 			args = append(args, "--file", "3", "/tmp/bwai.sh")
 			command = append([]string{command[0], "--rcfile", "/tmp/bwai.sh"}, command[1:]...)
 		}
+	} else {
+		// Upon goose starts, the parent process spawn some child process and then
+		// dies, which caused the startup of the tool to fail if the sandbox is
+		// running with --unshare-pid (which it does by default).
+		// By running the command via "bash -i -c goose" the iteractive shell
+		// prevents it from exiting and goose starts normally.
+		command = append([]string{"bash", "-i", "-c"}, command...)
 	}
 
 	args = append(args, command...)
