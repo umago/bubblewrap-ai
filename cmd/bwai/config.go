@@ -60,6 +60,8 @@ func defaultConfig() Config {
 			// Goose (uses provider keys above + its own config)
 			"GOOSE_PROVIDER",
 			"GOOSE_MODEL",
+			"GOOSE_PLANNER_PROVIDER",
+			"GOOSE_PLANNER_MODEL",
 			// OpenAI-compatible providers (used by Goose and others)
 			"OPENAI_API_KEY",
 			"OPENAI_API_BASE",
