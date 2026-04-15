@@ -86,7 +86,8 @@ Example `~/.bwai.json`:
     ".config/gcloud",
     ".local/state",
     ".local/share/goose",
-    ".cache"
+    ".cache",
+    ".cargo"
   ],
   "home_block": [
     ".gnupg",
