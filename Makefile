@@ -19,10 +19,10 @@ test:
 	go test ./...
 
 fmt:
-	gofmt -w ./..
+	gofmt -w .
 
 fmt-check:
-	@test -z "$$(gofmt -l ./..)" || { echo "The following files are not formatted:"; gofmt -l ./..;  exit 1; }
+	@test -z "$$(gofmt -l .)" || { echo "The following files are not formatted:"; gofmt -l .;  exit 1; }
 
 lint:
 	golangci-lint run ./...
