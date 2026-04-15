@@ -77,6 +77,7 @@ func defaultConfig() Config {
 			".local/state",
 			".local/share/goose",
 			".cache",
+			".cargo",
 		},
 		HomeBlock: []string{
 			".gnupg",
