@@ -41,6 +41,7 @@ func defaultConfig() Config {
 			"USER",
 			"LOGNAME",
 			"PATH",
+			"EDITOR",
 			// Claude
 			"ANTHROPIC_API_KEY",
 			// Claude model selection / pinning

@@ -113,6 +113,7 @@ Example `~/.bwai.json`:
     "USER",
     "LOGNAME",
     "PATH",
+    "EDITOR",
     "ANTHROPIC_API_KEY",
     "ANTHROPIC_MODEL",
     "ANTHROPIC_DEFAULT_OPUS_MODEL",
