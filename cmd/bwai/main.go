@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"strings"
 )
 
 func main() {
@@ -59,6 +60,8 @@ func main() {
 	if *commandFlag != "" {
 		command = []string{*commandFlag}
 	}
+	// Append any trailing args after -- to the resolved command
+	command = append(command, flag.Args()...)
 
 	fmt.Printf("bwai: sandboxed in %s\n", currentDir)
 	args := []string{
@@ -122,7 +125,7 @@ func main() {
 		// running with --unshare-pid (which it does by default).
 		// By running the command via "bash -i -c goose" the iteractive shell
 		// prevents it from exiting and goose starts normally.
-		command = append([]string{"bash", "-i", "-c"}, command...)
+		command = []string{"bash", "-i", "-c", strings.Join(command, " ")}
 	}
 
 	args = append(args, command...)
