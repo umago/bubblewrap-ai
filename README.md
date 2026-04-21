@@ -54,8 +54,20 @@ To skip the shell and launch an agent (or any command) directly, you can either:
 
 ```sh
 bwai --command claude
-bwai -c "claude --model gemini-2.0-flash-exp"
+
 ```
+
+To append arguments to the command configured in `~/.bwai.json`, use `--`:
+
+```sh
+# With "command": ["goose"] in config
+bwai -- session -r  # runs "goose session -r" to resume a session
+
+# With "command": ["claude"] in config
+bwai -- --model gemini-2.0-flash-exp  # runs "claude --model gemini-2.0-flash-exp"
+```
+
+Everything after `--` is passed as extra arguments to the resolved command.
 
 ## Configuration
 
