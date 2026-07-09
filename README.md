@@ -23,6 +23,16 @@ make build
 cp bin/bwai ~/.local/bin/
 ```
 
+## Update
+
+To update `bwai` to the latest release:
+
+```sh
+bwai update
+```
+
+This downloads the latest binary from [GitHub releases](https://github.com/umago/bubblewrap-ai/releases), verifies its SHA-256 digest, and replaces the running binary in-place.
+
 ## Usage
 
 Run `bwai` from inside the project directory you want to give the agent access to:
