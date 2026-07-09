@@ -11,6 +11,16 @@ import (
 )
 
 func main() {
+	// Subcommand dispatch (before flag parsing to avoid flag conflicts)
+	if len(os.Args) > 1 && os.Args[1] == "update" {
+		fs := flag.NewFlagSet("update", flag.ExitOnError)
+		if err := fs.Parse(os.Args[2:]); err != nil {
+			os.Exit(1)
+		}
+		runUpdate()
+		return
+	}
+
 	versionFlag := flag.Bool("version", false, "Print version and exit")
 	dumpConfig := flag.Bool("dump-config", false, "Print the default configuration JSON and exit")
 	configFlag := flag.String("config", "", "Path to a config file (overrides ~/.bwai.json)")
