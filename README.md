@@ -77,6 +77,17 @@ bwai -- session -r  # runs "goose session -r" to resume a session
 bwai -- --model gemini-2.0-flash-exp  # runs "claude --model gemini-2.0-flash-exp"
 ```
 
+### Exposing extra directories (read-only)
+
+Use `--ro-dir` to give the agent read-only access to directories outside the current project. This is useful when the project you are working on depends on another local project that you want the agent to use as reference:
+
+```sh
+bwai --ro-dir ../other-project
+bwai --ro-dir /absolute/path/to/lib --ro-dir /another/path
+```
+
+The flag is repeatable and accepts both relative and absolute paths. Each directory is mounted at the same absolute path inside the sandbox. `bwai` will refuse to start if any of the given paths does not exist.
+
 Everything after `--` is passed as extra arguments to the resolved command.
 
 ## Configuration
