@@ -92,27 +92,21 @@ Everything after `--` is passed as extra arguments to the resolved command.
 
 ## Configuration
 
-`bwai` works out of the box with no config file. To customise behaviour, create `~/.bwai.json` as a global config. This can be overridden per-run with the `--config` flag:
+`bwai` works out of the box with no config file. To customise behaviour, create `~/.bwai.json` as a global config. To use a different file for a single run:
 
 ```sh
 bwai --config /path/to/my-config.json
 ```
 
-To use the full defaults as a starting point, run:
+To use the built-in defaults as a starting point, run `bwai --dump-config > ~/.bwai.json`, or browse them at [`cmd/bwai/defaults.json`](cmd/bwai/defaults.json).
 
-```sh
-bwai --dump-config > ~/.bwai.json
-```
+The available fields are:
 
-The built-in defaults are also available at [`cmd/bwai/defaults.json`](cmd/bwai/defaults.json).
-
-| Field | Description | Default |
-|---|---|---|
-| `bwrap_path` | Path to the `bwrap` binary | `"bwrap"` |
-| `bwrap_extra_args` | Extra arguments forwarded to `bwrap` (e.g. `--unshare-net`) | `["--unshare-pid", "--unshare-ipc"]` |
-| `command` | Command (and args) to run inside the sandbox | `["bash"]` |
-| `home_allow` | Dotfiles/dirs in `$HOME` the agent may read and write | see above |
-| `home_block` | Dotfiles/dirs in `$HOME` that are never exposed | see above |
-| `env_allow` | Environment variables from the host passed into the sandbox | see above |
-
-`home_allow` takes precedence over `home_block`.
+| Field | Description |
+|---|---|
+| `bwrap_path` | Path to the `bwrap` binary |
+| `bwrap_extra_args` | Extra arguments forwarded to `bwrap` (e.g. `--unshare-net`) |
+| `command` | Command (and args) to run inside the sandbox |
+| `home_allow` | Dotfiles/dirs in `$HOME` the agent may read and write |
+| `home_block` | Dotfiles/dirs in `$HOME` that are never exposed (`home_allow` takes precedence) |
+| `env_allow` | Environment variables from the host passed into the sandbox |
