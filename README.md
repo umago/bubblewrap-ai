@@ -98,78 +98,13 @@ Everything after `--` is passed as extra arguments to the resolved command.
 bwai --config /path/to/my-config.json
 ```
 
-To see the full default configuration as a starting point, run:
+To use the full defaults as a starting point, run:
 
 ```sh
 bwai --dump-config > ~/.bwai.json
 ```
 
-Example `~/.bwai.json`:
-
-```json
-{
-  "bwrap_path": "bwrap",
-  "bwrap_extra_args": ["--unshare-pid", "--unshare-ipc"],
-  "command": ["bash"],
-  "home_allow": [
-    ".claude",
-    ".gemini",
-    ".claude.json",
-    ".config/goose",
-    ".config/gcloud",
-    ".local/state",
-    ".local/share/goose",
-    ".cache",
-    ".cargo"
-  ],
-  "home_block": [
-    ".gnupg",
-    ".ssh",
-    ".pki",
-    ".aws",
-    ".kube",
-    ".azure",
-    ".bashrc",
-    ".bashrc.d",
-    ".password-store",
-    ".bash_history*",
-    ".config/Bitwarden",
-    ".cache/nvidia"
-  ],
-  "env_allow": [
-    "TERM",
-    "COLORTERM",
-    "LANG",
-    "LC_ALL",
-    "LC_MESSAGES",
-    "LC_CTYPE",
-    "HOME",
-    "USER",
-    "LOGNAME",
-    "PATH",
-    "EDITOR",
-    "ANTHROPIC_API_KEY",
-    "ANTHROPIC_MODEL",
-    "ANTHROPIC_DEFAULT_OPUS_MODEL",
-    "ANTHROPIC_DEFAULT_SONNET_MODEL",
-    "ANTHROPIC_DEFAULT_HAIKU_MODEL",
-    "CLAUDE_CODE_USE_VERTEX",
-    "CLOUD_ML_REGION",
-    "ANTHROPIC_VERTEX_PROJECT_ID",
-    "GEMINI_API_KEY",
-    "GOOGLE_API_KEY",
-    "GCLOUD_PROJECT",
-    "GOOGLE_CLOUD_PROJECT",
-    "GOOSE_PROVIDER",
-    "GOOSE_MODEL",
-    "GOOSE_PLANNER_PROVIDER",
-    "GOOSE_PLANNER_MODEL",
-    "OPENAI_API_KEY",
-    "OPENAI_API_BASE",
-    "OPENROUTER_API_KEY",
-  ]
-}
-```
+The built-in defaults are also available at [`cmd/bwai/defaults.json`](cmd/bwai/defaults.json).
 
 | Field | Description | Default |
 |---|---|---|

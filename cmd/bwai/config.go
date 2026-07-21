@@ -1,9 +1,13 @@
 package main
 
 import (
+	_ "embed"
 	"encoding/json"
 	"os"
 )
+
+//go:embed defaults.json
+var defaultConfigJSON []byte
 
 type Config struct {
 	// Path to the bwrap binary. Defaults to "bwrap"
@@ -26,75 +30,11 @@ type Config struct {
 }
 
 func defaultConfig() Config {
-	return Config{
-		BwrapPath:      "bwrap",
-		BwrapExtraArgs: []string{"--unshare-pid", "--unshare-ipc"},
-		Command:        []string{"bash"},
-		EnvAllow: []string{
-			"TERM",
-			"COLORTERM",
-			"LANG",
-			"LC_ALL",
-			"LC_MESSAGES",
-			"LC_CTYPE",
-			"HOME",
-			"USER",
-			"LOGNAME",
-			"PATH",
-			"EDITOR",
-			// Claude
-			"ANTHROPIC_API_KEY",
-			// Claude model selection / pinning
-			"ANTHROPIC_MODEL",
-			"ANTHROPIC_DEFAULT_OPUS_MODEL",
-			"ANTHROPIC_DEFAULT_SONNET_MODEL",
-			"ANTHROPIC_DEFAULT_HAIKU_MODEL",
-			// Claude Code on Google Vertex AI
-			"CLAUDE_CODE_USE_VERTEX",
-			"CLOUD_ML_REGION",
-			"ANTHROPIC_VERTEX_PROJECT_ID",
-			// Gemini / Google
-			"GEMINI_API_KEY",
-			"GOOGLE_API_KEY",
-			"GCLOUD_PROJECT",
-			"GOOGLE_CLOUD_PROJECT",
-			// Goose (uses provider keys above + its own config)
-			"GOOSE_PROVIDER",
-			"GOOSE_MODEL",
-			"GOOSE_PLANNER_PROVIDER",
-			"GOOSE_PLANNER_MODEL",
-			// OpenAI-compatible providers (used by Goose and others)
-			"OPENAI_API_KEY",
-			"OPENAI_API_BASE",
-			// OpenRouter
-			"OPENROUTER_API_KEY",
-		},
-		HomeAllow: []string{
-			".claude",
-			".gemini",
-			".claude.json",
-			".config/goose",
-			".config/gcloud",
-			".local/state",
-			".local/share/goose",
-			".cache",
-			".cargo",
-		},
-		HomeBlock: []string{
-			".gnupg",
-			".ssh",
-			".pki",
-			".aws",
-			".kube",
-			".azure",
-			".bashrc",
-			".bashrc.d",
-			".password-store",
-			".bash_history*",
-			".config/Bitwarden",
-			".cache/nvidia",
-		},
+	var cfg Config
+	if err := json.Unmarshal(defaultConfigJSON, &cfg); err != nil {
+		panic("bwai: invalid defaults.json: " + err.Error())
 	}
+	return cfg
 }
 
 // loadConfig reads the config file at the given path if it exists and returns the resulting Config.

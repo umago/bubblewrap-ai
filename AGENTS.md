@@ -9,7 +9,8 @@
 ```
 cmd/bwai/
   main.go       # Entry point, flag parsing, bwrap command construction
-  config.go     # Config struct, defaults, JSON loading (~/.bwai.json)
+  config.go     # Config struct and JSON loading (~/.bwai.json)
+  defaults.json # Built-in default configuration (embedded into the binary at build time)
   mounts.go     # Filesystem mount logic (home, DNS, GPU, shm)
   bwrap.go      # Low-level bwrap argument helpers (roBind, rwBind, devBind, tmpfs)
   update.go     # Self-update from GitHub releases with SHA-256 verification
@@ -74,8 +75,8 @@ bwai --dump-config          # Print default config as JSON
 
 - **New mount type**: Add a helper function in `mounts.go` following the existing pattern (`[]string` return, appended in `main.go`).
 - **New CLI flag**: Add to `main.go` using the `flag` package; wire into the bwrap args slice.
-- **New config field**: Add to the `Config` struct in `config.go` and update `defaultConfig()`.
-- **New agent support**: Add its dotfiles to `home_allow` defaults and its API key to `env_allow` defaults in `config.go`.
+- **New config field**: Add to the `Config` struct in `config.go` and add the default value to `defaults.json`.
+- **New agent support**: Add its dotfiles to `home_allow` and its API key to `env_allow` in `defaults.json`.
 
 ## Testing
 
