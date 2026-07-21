@@ -10,6 +10,14 @@ import (
 	"strings"
 )
 
+type stringSliceFlag []string
+
+func (s *stringSliceFlag) String() string { return strings.Join(*s, ", ") }
+func (s *stringSliceFlag) Set(v string) error {
+	*s = append(*s, v)
+	return nil
+}
+
 func main() {
 	// Subcommand dispatch (before flag parsing to avoid flag conflicts)
 	if len(os.Args) > 1 && os.Args[1] == "update" {
@@ -26,6 +34,8 @@ func main() {
 	configFlag := flag.String("config", "", "Path to a config file (overrides ~/.bwai.json)")
 	commandFlag := flag.String("command", "", "Command to run inside the sandbox (overrides config and default)")
 	flag.StringVar(commandFlag, "c", "", "Shorthand for --command")
+	var roDirs stringSliceFlag
+	flag.Var(&roDirs, "ro-dir", "Extra read-only directory to expose in the sandbox (repeatable)")
 	flag.Parse()
 
 	if *versionFlag {
@@ -73,6 +83,20 @@ func main() {
 	// Append any trailing args after -- to the resolved command
 	command = append(command, flag.Args()...)
 
+	absRoDirs := make([]string, 0, len(roDirs))
+	for _, dir := range roDirs {
+		abs, absErr := filepath.Abs(dir)
+		if absErr != nil {
+			fmt.Fprintf(os.Stderr, "bwai: --ro-dir %s: %v\n", dir, absErr)
+			os.Exit(1)
+		}
+		if _, err := os.Stat(abs); err != nil {
+			fmt.Fprintf(os.Stderr, "bwai: --ro-dir %s: %v\n", dir, err)
+			os.Exit(1)
+		}
+		absRoDirs = append(absRoDirs, abs)
+	}
+
 	fmt.Printf("bwai: sandboxed in %s\n", currentDir)
 	args := []string{
 		// Clear the inherited environment; only whitelisted vars are passed through below
@@ -114,6 +138,9 @@ func main() {
 		// Namespace isolation
 		"--die-with-parent",
 	)
+	for _, dir := range absRoDirs {
+		args = append(args, roBind(dir)...)
+	}
 	args = append(args, cfg.BwrapExtraArgs...)
 
 	// Inject a minimal rcfile so PS1 is set after /etc/bashrc runs, without
