@@ -44,7 +44,7 @@ The config file lives at `~/.bwai.json`. Key fields:
 | Field | Purpose |
 |---|---|
 | `bwrap_path` | Path to the `bwrap` binary |
-| `bwrap_extra_args` | Extra flags passed directly to bwrap |
+| `bwrap_extra_args` | Extra flags passed directly to bwrap. Each element is split on whitespace, so `"--ro-bind /var /var"` and `"--ro-bind", "/var", "/var"` are equivalent |
 | `command` | Default command to run inside the sandbox |
 | `home_allow` | Dotfiles/paths from `$HOME` to expose (read-only) |
 | `home_block` | Dotfiles/paths to explicitly block |
