@@ -105,7 +105,7 @@ The available fields are:
 | Field | Description |
 |---|---|
 | `bwrap_path` | Path to the `bwrap` binary |
-| `bwrap_extra_args` | Extra arguments forwarded to `bwrap` (e.g. `--unshare-net`) |
+| `bwrap_extra_args` | Extra arguments forwarded to `bwrap` (e.g. `--unshare-net`). Each element is split on whitespace, so `"--ro-bind /var /var"` and `"--ro-bind", "/var", "/var"` are equivalent |
 | `command` | Command (and args) to run inside the sandbox |
 | `home_allow` | Dotfiles/dirs in `$HOME` the agent may read and write |
 | `home_block` | Dotfiles/dirs in `$HOME` that are never exposed (`home_allow` takes precedence) |
