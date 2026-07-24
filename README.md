@@ -108,5 +108,10 @@ The available fields are:
 | `bwrap_extra_args` | Extra arguments forwarded to `bwrap` (e.g. `--unshare-net`). Each element is split on whitespace, so `"--ro-bind /var /var"` and `"--ro-bind", "/var", "/var"` are equivalent |
 | `command` | Command (and args) to run inside the sandbox |
 | `home_allow` | Dotfiles/dirs in `$HOME` the agent may read and write |
-| `home_block` | Dotfiles/dirs in `$HOME` that are never exposed (`home_allow` takes precedence) |
+| `home_block` | Dotfiles/dirs in `$HOME` that are never exposed |
 | `env_allow` | Environment variables from the host passed into the sandbox |
+
+`home_block` takes precedence over `home_allow` at the same nesting level. However, the two can be combined at different nesting levels to achieve more granular control:
+
+- **Block a sub-path inside an allowed directory** — `home_allow: [".cache"]` + `home_block: [".cache/sccache"]` exposes `.cache` (read-write) but hides `.cache/sccache` inside it.
+- **Re-expose a sub-path inside a blocked directory** — `home_block: [".cache"]` + `home_allow: [".cache/sccache"]` hides everything in `.cache` except `.cache/sccache`, which is available read-write.

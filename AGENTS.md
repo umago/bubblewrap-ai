@@ -50,7 +50,7 @@ The config file lives at `~/.bwai.json`. Key fields:
 | `home_block` | Dotfiles/paths to explicitly block |
 | `env_allow` | Environment variables to pass through |
 
-`home_allow` takes precedence over `home_block`. Patterns support glob suffixes (e.g., `.bash_history*`) and nested paths (e.g., `.config/goose`).
+`home_block` takes precedence over `home_allow` at the same nesting level. However, the two can be combined at different levels: a `home_block` entry hides a sub-path inside an otherwise allowed directory (e.g. `home_allow: [".cache"]` + `home_block: [".cache/sccache"]` hides `.cache/sccache`), and a `home_allow` entry re-exposes a sub-path inside an otherwise blocked directory (e.g. `home_block: [".cache"]` + `home_allow: [".cache/sccache"]` exposes only `.cache/sccache`). Patterns support glob suffixes (e.g., `.bash_history*`) and nested paths (e.g., `.config/goose`).
 
 ## Key Design Decisions
 
