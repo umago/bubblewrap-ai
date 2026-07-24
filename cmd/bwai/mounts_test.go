@@ -177,6 +177,46 @@ func TestHomeMounts(t *testing.T) {
 	})
 }
 
+func TestHomeMountsSkipsBrokenSymlink(t *testing.T) {
+	home := t.TempDir()
+
+	origAllowed := homeAllow
+	origBlocked := homeBlock
+	t.Cleanup(func() {
+		homeAllow = origAllowed
+		homeBlock = origBlocked
+	})
+
+	homeAllow = []string{}
+	homeBlock = []string{}
+
+	// A valid dotdir that should still be mounted.
+	vimDir := filepath.Join(home, ".vim")
+	if err := os.MkdirAll(vimDir, 0755); err != nil {
+		t.Fatal(err)
+	}
+
+	// A dead symlink (target doesn't exist) in $HOME.
+	deadLink := filepath.Join(home, ".deadlink")
+	if err := os.Symlink(filepath.Join(home, "nonexistent"), deadLink); err != nil {
+		t.Fatal(err)
+	}
+
+	args := homeMounts(home)
+
+	// The valid dotdir should be mounted.
+	if !containsSequence(args, "--ro-bind", vimDir, vimDir) {
+		t.Errorf("expected --ro-bind for valid dir %q; args: %v", vimDir, args)
+	}
+
+	// The dead symlink must NOT appear in any bind mount.
+	for _, a := range args {
+		if a == deadLink {
+			t.Errorf("dead symlink %q must not appear in mount args; args: %v", deadLink, args)
+		}
+	}
+}
+
 // containsSequence reports whether needle appears as a contiguous subsequence in haystack.
 func containsSequence(haystack []string, needle ...string) bool {
 	return indexOfSequence(haystack, needle...) != -1

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 	"sort"
@@ -50,6 +51,10 @@ func homeMounts(home string) []string {
 			continue
 		}
 		p := filepath.Join(home, name)
+		if _, err := os.Stat(p); err != nil {
+			fmt.Fprintf(os.Stderr, "bwai: skipping %s: %v\n", p, err)
+			continue
+		}
 		if matchesDirect(homeAllow, name) {
 			args = append(args, rwBind(p)...)
 		} else {
